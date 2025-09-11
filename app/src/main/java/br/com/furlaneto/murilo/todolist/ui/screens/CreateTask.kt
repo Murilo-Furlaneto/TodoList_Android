@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.furlaneto.murilo.todolist.model.Task
 import br.com.furlaneto.murilo.todolist.viewModel.TaskViewModel
+import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -139,6 +140,7 @@ fun CreateTask(
                         titleError = "O título não pode estar vazio."
                     } else {
                         val newTask = Task(
+                            id = Random.nextLong(),
                             title = title.trim(),
                             description = description.trim(),
                             isCompleted = false
@@ -151,7 +153,7 @@ fun CreateTask(
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Salvar")
+                Text("Salvar", style = MaterialTheme.typography.titleMedium)
             }
         }
     }

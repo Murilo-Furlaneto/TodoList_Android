@@ -1,16 +1,16 @@
 package br.com.furlaneto.murilo.todolist
 
+import TaskScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel // Para obter o ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import br.com.furlaneto.murilo.todolist.ui.screens.CreateTask // Importe CreateTask
-import br.com.furlaneto.murilo.todolist.ui.screens.TaskScreen
+import br.com.furlaneto.murilo.todolist.ui.screens.CreateTask
 import br.com.furlaneto.murilo.todolist.ui.theme.TodoListTheme
 import br.com.furlaneto.murilo.todolist.viewModel.TaskViewModel
 
