@@ -58,8 +58,3 @@ Um aplicativo **ToDoList** simples e funcional desenvolvido em **Kotlin** utiliz
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir issues, sugerir melhorias ou enviar pull requests.
 
-
-
-***
-
-Se precisar, posso ajudar a gerar também arquivos de modelo para issues, templates de PR, ou documentação técnica interna para o projeto. Quer?
