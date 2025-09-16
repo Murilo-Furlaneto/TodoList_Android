@@ -6,10 +6,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.com.furlaneto.murilo.todolist.ui.screens.CompletedTaskScreen
 import br.com.furlaneto.murilo.todolist.ui.screens.CreateTask
 import br.com.furlaneto.murilo.todolist.ui.theme.TodoListTheme
 import br.com.furlaneto.murilo.todolist.viewModel.TaskViewModel
@@ -37,7 +39,8 @@ fun AppNavigation() {
                 taskViewModel = taskViewModel,
                 onNavigateToCreateTask = {
                     navController.navigate("createTask")
-                }
+                },
+                navController = navController
             )
         }
         composable("createTask") {
@@ -46,6 +49,12 @@ fun AppNavigation() {
                 onNavigateBack = { navController.popBackStack() }
             )
 
+        }
+        composable("completedTasks") {
+            CompletedTaskScreen(
+                viewModel = taskViewModel,
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
     }
 }

@@ -20,7 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,9 +40,9 @@ fun CreateTask(
 ) {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-    var titleError by remember { mutableStateOf<String?>(null) }
 
-    val validationErrorFromViewModel by taskViewModel.validationError.collectAsState()
+    val titleErrorFromViewModel by taskViewModel.titleError.collectAsState()
+    val descriptionErrorFromViewModel by taskViewModel.descriptionError.collectAsState()
 
     Scaffold(
         topBar = {
@@ -86,17 +85,17 @@ fun CreateTask(
                 value = title,
                 onValueChange = {
                     title = it
-                    titleError = null
-                    taskViewModel.clearValidationError()
+                    if (titleErrorFromViewModel != null) {
+                        taskViewModel.clearValidationError()
+                    }
                 },
                 label = { Text("Título da Tarefa") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
-                isError = titleError != null || (validationErrorFromViewModel != null && title.isBlank())
+                isError = titleErrorFromViewModel != null
             )
 
-            val errorToShow = titleError ?: if (title.isBlank()) validationErrorFromViewModel else null
-            errorToShow?.let {
+            titleErrorFromViewModel?.let {
                 Text(
                     text = it,
                     color = MaterialTheme.colorScheme.error,
@@ -111,44 +110,41 @@ fun CreateTask(
                 value = description,
                 onValueChange = {
                     description = it
-                    taskViewModel.clearValidationError()
+                    if (descriptionErrorFromViewModel != null) {
+                        taskViewModel.clearValidationError()
+                    }
                 },
                 label = { Text("Descrição (Opcional)") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(120.dp),
-                maxLines = 5
+                maxLines = 5,
+                isError = descriptionErrorFromViewModel != null
             )
 
-            if (validationErrorFromViewModel != null && !title.isBlank()) {
+            descriptionErrorFromViewModel?.let {
                 Text(
-                    text = validationErrorFromViewModel!!,
+                    text = it,
                     color = MaterialTheme.colorScheme.error,
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.align(Alignment.Start).padding(top = 4.dp)
                 )
             }
 
+
             Spacer(modifier = Modifier.weight(1f))
 
             Button(
                 onClick = {
-                    titleError = null
-                    taskViewModel.clearValidationError()
-
-                    if (title.isBlank()) {
-                        titleError = "O título não pode estar vazio."
-                    } else {
-                        val newTask = Task(
-                            id = Random.nextLong(),
-                            title = title.trim(),
-                            description = description.trim(),
-                            isCompleted = false
-                        )
-                        taskViewModel.addTask(newTask)
-                        if (validationErrorFromViewModel == null) {
-                            onNavigateBack()
-                        }
+                    val newTask = Task(
+                        id = Random.nextLong(),
+                        title = title.trim(),
+                        description = description.trim(),
+                        isCompleted = false
+                    )
+                    val success = taskViewModel.addTask(newTask)
+                    if (success) {
+                        onNavigateBack()
                     }
                 },
                 modifier = Modifier.fillMaxWidth()

@@ -17,6 +17,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -36,6 +38,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import br.com.furlaneto.murilo.todolist.model.Task
 import br.com.furlaneto.murilo.todolist.viewModel.TaskViewModel
 import kotlinx.coroutines.delay
@@ -43,12 +47,18 @@ import kotlinx.coroutines.delay
 @Composable
 fun TaskScreen(
     taskViewModel: TaskViewModel,
-    onNavigateToCreateTask: () -> Unit
+    onNavigateToCreateTask: () -> Unit,
+    navController: NavHostController = rememberNavController()
 ) {
     val tasks by taskViewModel.taskList.collectAsState()
     val validationError by taskViewModel.validationError.collectAsState()
 
     Scaffold(
+        bottomBar = {
+            BottomBarMenu(
+                navController = navController
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onNavigateToCreateTask,
@@ -175,4 +185,23 @@ fun TaskCard(task: Task, viewModel: TaskViewModel) {
     }
 }
 
-
+@Composable
+fun BottomBarMenu(navController: NavHostController) {
+    BottomAppBar {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            IconButton(onClick = {
+                navController.navigate("taskList")
+            }) {
+                Icon(imageVector = Icons.Default.Home, contentDescription = "Tarefas")
+            }
+            IconButton(onClick = {
+                navController.navigate("completedTasks")
+            }) {
+                Icon(imageVector = Icons.Default.Done, contentDescription = "Concluídas")
+            }
+        }
+    }
+}
