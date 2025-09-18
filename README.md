@@ -19,6 +19,7 @@ Um aplicativo **ToDoList** simples e funcional desenvolvido em **Kotlin** utiliz
 - Material3 para UI moderna
 - Coroutines para operações assíncronas
 - Gradle como sistema de build
+-  persistência local utilizando Room Database
 
 ## Funcionalidades
 
@@ -48,7 +49,6 @@ Um aplicativo **ToDoList** simples e funcional desenvolvido em **Kotlin** utiliz
 
 ## Próximos Passos para o Projeto
 
-- Adicionar persistência local utilizando Room Database
 - Implementar sincronização via Firebase ou outro backend
 - Melhorias na experiência do usuário (UX) e design
 - Adição de testes instrumentados e UI tests
