@@ -6,8 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -15,7 +14,11 @@ import br.com.furlaneto.murilo.todolist.ui.screens.CompletedTaskScreen
 import br.com.furlaneto.murilo.todolist.ui.screens.CreateTask
 import br.com.furlaneto.murilo.todolist.ui.theme.TodoListTheme
 import br.com.furlaneto.murilo.todolist.viewModel.TaskViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +34,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-    val taskViewModel: TaskViewModel = viewModel()
+    val taskViewModel: TaskViewModel = hiltViewModel()
 
     NavHost(navController = navController, startDestination = "taskList") {
         composable("taskList") {
@@ -58,4 +61,8 @@ fun AppNavigation() {
         }
     }
 }
-    
+
+
+@HiltAndroidApp
+class MyApplication : Application()
+
